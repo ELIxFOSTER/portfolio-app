@@ -1,0 +1,81 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses direct connection
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  title       String
+  siteUrl     String
+  description String
+  images      Image[]
+  skills      Skill[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Image {
+  id        String   @id @default(cuid())
+  imageUrl  String
+  project   Project? @relation(fields: [projectId], references: [id])
+  projectId String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Skill {
+  id        String    @id @default(cuid())
+  title     String
+  imageUrl  String
+  projects  Project[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Resume {
+  id        String   @id @default(cuid())
+  fileUrl   String
+  fileType  String
+  version   String
+  isActive  Boolean
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Bio {
+  id        String   @id @default(cuid())
+  firstName String
+  lastName  String
+  city      String
+  state     String
+  age       Int
+  email     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Joke {
+  id        String   @id @default(cuid())
+  setup     String
+  punchline String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model FunFact {
+  id        String   @id @default(cuid())
+  fact      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
