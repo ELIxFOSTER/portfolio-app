@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+import { CssBaseline } from "@mui/material";
+import Navbar from "@/components/Navbar";
+import ThemeWrapper from "./theme/ThemeWrapper";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -13,10 +16,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className="antialiased"
-      >
-        {children}
+      <head>
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
+      </head>
+      <body className="antialiased">
+        <ThemeWrapper>
+          <CssBaseline />
+          <Navbar />
+          {children}
+        </ThemeWrapper>
       </body>
     </html>
   );
